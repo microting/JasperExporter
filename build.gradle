@@ -14,9 +14,17 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:23.0',
-            'net.sf.jasperreports:jasperreports:6.5.1',
+    compile 'net.sf.jasperreports:jasperreports:6.5.1',
             'commons-io:commons-io:2.6'
 
     testCompile 'junit:junit:4.12'
+}
+
+jar {
+    manifest {
+        attributes("Class-Path": ".",
+                "Rsrc-Main-Class": "com.microting.report.jasper.JasperExporter",
+                "Main-Class": "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader",
+                "Rsrc-Class-Path":  './ ' + configurations.compile.collect { it.getName() }.join(' '))
+    }
 }
