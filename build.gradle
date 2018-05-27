@@ -1,10 +1,6 @@
 plugins {
     id 'java'
-    id 'application'
 }
-
-mainClassName = 'com.microting.report.jasper.JasperExporter'
-
 
 repositories {
     jcenter()
@@ -26,5 +22,8 @@ jar {
                 "Rsrc-Main-Class": "com.microting.report.jasper.JasperExporter",
                 "Main-Class": "org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader",
                 "Rsrc-Class-Path":  './ ' + configurations.compile.collect { it.getName() }.join(' '))
+    }
+    from {
+        configurations.compile.collect {it}
     }
 }
