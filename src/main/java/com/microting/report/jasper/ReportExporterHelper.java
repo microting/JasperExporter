@@ -9,8 +9,9 @@ public class ReportExporterHelper {
 
 	protected static boolean isNecessaryTemplateCompilation(String templateFile) throws JRException {
 		templateFile = templateFile.trim();
-		if (!new File(templateFile).exists())
+		if (!new File(templateFile).exists()) {
 			throw new JRException("Template file not found " + templateFile);
+		}
 		if (templateFile.endsWith("jasper")) {
 			return false;
 		}

@@ -30,18 +30,18 @@ public class JasperExporterEngine {
 	private URI uri;
 	private String mainTemplate;
 	private OutputStream outputStream;
-	private String exportType;
+	private ExportType exportType;
 
 	public void export() throws ReportExportException {
 		try {
-			JasperReport template = loadTemplate(this.mainTemplate);
+			JasperReport template = loadTemplate(mainTemplate);
 			String query = template.getQuery().getText();
 			if ((query == null) || ("".equals(query))) {
 				query = ".";
 			}
-			JRXmlDataSource datasource = new JRXmlDataSource(this.uri.toString(), query);
-			JasperPrint jasperPrint = JasperFillManager.fillReport(template, getDefaultConfiguration(this.mainTemplate), datasource);
-			JasperReportConvertor reportConvertor = new JasperReportConvertor(this.outputStream, this.exportType);
+			JRXmlDataSource datasource = new JRXmlDataSource(uri.toString(), query);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(template, getDefaultConfiguration(mainTemplate), datasource);
+			JasperReportConvertor reportConvertor = new JasperReportConvertor(outputStream, exportType);
 			reportConvertor.convert(jasperPrint);
 		} catch (Throwable e) {
 			throw new ReportExportException(e);
@@ -58,7 +58,9 @@ public class JasperExporterEngine {
 		if ((templateFile != null) && (!"".equals(templateFile))) {
 			if (FilenameUtils.isExtension(templateFile, new String[]{"jrxml", "jasper"})) {
 			}
-		} else throw new JRException("Invalid template extention for this file" + templateFile);
+		} else {
+			throw new JRException("Invalid template extention for this file" + templateFile);
+		}
 		if (!ReportExporterHelper.isNecessaryTemplateCompilation(templateFile)) {
 			String compiledFile = ReportExporterHelper.changeFileExtension(templateFile, "jasper");
 			return (JasperReport) JRLoader.loadObjectFromFile(compiledFile);
@@ -84,9 +86,10 @@ public class JasperExporterEngine {
 	}
 
 	public void setTemplate(String templateFile) {
-		if (!ReportExporterHelper.fileExists(templateFile))
+		if (!ReportExporterHelper.fileExists(templateFile)) {
 			throw new IllegalArgumentException("This template file does not exists " + templateFile);
-		this.mainTemplate = templateFile;
+		}
+		mainTemplate = templateFile;
 	}
 
 	public void setReportData(URI uri) {
@@ -97,7 +100,7 @@ public class JasperExporterEngine {
 		this.outputStream = outputStream;
 	}
 
-	public void setExportType(String exportType) {
+	public void setExportType(ExportType exportType) {
 		this.exportType = exportType;
 	}
 }

@@ -1,70 +1,142 @@
 package com.microting.report.jasper.convertion;
 
-import java.io.FileNotFoundException;
 import java.io.OutputStream;
 
+import com.microting.report.jasper.ExportType;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 public class JasperReportConvertor {
 
-	private final String exportType;
+	private final ExportType exportType;
 	private final OutputStream outputStream;
 
-	public JasperReportConvertor(OutputStream outputStream, String exportType) {
+	public JasperReportConvertor(OutputStream outputStream, ExportType exportType) {
 		this.outputStream = outputStream;
-		this.exportType = exportType.trim().replace(".", "");
+		this.exportType = exportType;
 	}
 
 	public void convert(JasperPrint jasperPrint) throws ReportConversionException {
 		try {
-			if ("pdf".equalsIgnoreCase(this.exportType)) {
-				JasperExportManager.exportReportToPdfStream(jasperPrint, this.outputStream);
-			} else if (("xls".equalsIgnoreCase(this.exportType)) || ("xlsx".equalsIgnoreCase(this.exportType))) {
-				exportToExcel(jasperPrint);
-			} else if (("doc".equalsIgnoreCase(this.exportType)) || ("docx".equalsIgnoreCase(this.exportType))) {
-				exportToWord(jasperPrint);
-			} else if ("rtf".equalsIgnoreCase(this.exportType)) {
-				export(jasperPrint, new JRRtfExporter());
-			} else if ("odt".equalsIgnoreCase(this.exportType)) {
-				export(jasperPrint, new JROdtExporter());
-			} else if (("ppt".equalsIgnoreCase(this.exportType)) || ("pptx".equalsIgnoreCase(this.exportType))) {
-				export(jasperPrint, new JRPptxExporter());
-			} else {
-				throw new IllegalArgumentException("Invalid export file type for " + this.exportType);
+			switch (exportType) {
+				case PDF:
+					generatePdf(jasperPrint);
+					break;
+				case DOC:
+				case DOCX:
+					generateDoc(jasperPrint);
+					break;
+				case ODT:
+					genarateOdt(jasperPrint);
+					break;
+				case RTF:
+					generateRtf(jasperPrint);
+					break;
+				case XSL:
+					generateXls(jasperPrint);
+					break;
+				case XLSX:
+					generateXlsx(jasperPrint);
+					break;
+				case PPT:
+				case PPTX:
+					generatePptx(jasperPrint);
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid export file type for " + exportType);
 			}
 		} catch (Throwable e) {
 			throw new ReportConversionException(e);
 		}
 	}
 
-	private void exportToWord(JasperPrint jasperPrint) throws JRException {
-		JRDocxExporter exporter = new JRDocxExporter();
-		exporter.setParameter(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
-		export(jasperPrint, exporter);
+	private void generatePdf(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JRPdfExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.exportReport();
 	}
 
-	private void exportToExcel(JasperPrint jasperPrint) throws FileNotFoundException, JRException {
-		JRXlsExporter exporter = new JRXlsExporter();
-		exporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-		exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-		exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-		export(jasperPrint, exporter);
+	private void generateDoc(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JRDocxExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+
+		SimpleDocxReportConfiguration reportConfiguration = new SimpleDocxReportConfiguration();
+		reportConfiguration.setFlexibleRowHeight(Boolean.TRUE);
+		exporter.setConfiguration(reportConfiguration);
+
+		exporter.exportReport();
 	}
 
-	private void export(JasperPrint jasperPrint, JRExporter exporter) throws JRException {
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, this.outputStream);
+	private void genarateOdt(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JROdtExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.exportReport();
+	}
+
+	private void generateRtf(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JRRtfExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+		exporter.exportReport();
+	}
+
+	private void generateXls(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JRXlsExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+
+		SimpleXlsReportConfiguration reportConfiguration = new SimpleXlsReportConfiguration();
+		reportConfiguration.setDetectCellType(Boolean.TRUE);
+		reportConfiguration.setWhitePageBackground(Boolean.FALSE);
+		reportConfiguration.setRemoveEmptySpaceBetweenColumns(Boolean.TRUE);
+
+		exporter.setConfiguration(reportConfiguration);
+
+		exporter.exportReport();
+	}
+
+	private void generateXlsx(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JRXlsxExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+
+		SimpleXlsReportConfiguration reportConfiguration = new SimpleXlsReportConfiguration();
+		reportConfiguration.setDetectCellType(Boolean.TRUE);
+		reportConfiguration.setWhitePageBackground(Boolean.FALSE);
+		reportConfiguration.setRemoveEmptySpaceBetweenColumns(Boolean.TRUE);
+
+		exporter.setConfiguration(reportConfiguration);
+
+		exporter.exportReport();
+	}
+
+
+	private void generatePptx(JasperPrint jasperPrint) throws JRException {
+		Exporter exporter = new JRPptxExporter();
+		SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
+		exporter.setExporterOutput(exporterOutput);
+		exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 		exporter.exportReport();
 	}
 }
