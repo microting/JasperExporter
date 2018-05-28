@@ -11,7 +11,8 @@ repositories {
 
 dependencies {
     compile 'net.sf.jasperreports:jasperreports:6.5.1',
-            'commons-io:commons-io:2.6'
+            'commons-io:commons-io:2.6',
+            'xalan:xalan:2.7.2'
 
     testCompile 'junit:junit:4.12'
 }
