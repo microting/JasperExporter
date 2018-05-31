@@ -37,12 +37,6 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 public class JasperReportConvertor {
 
-	private static SimpleDocxReportConfiguration get() {
-		SimpleDocxReportConfiguration reportConfiguration = new SimpleDocxReportConfiguration();
-		reportConfiguration.setFlexibleRowHeight(Boolean.TRUE);
-		return reportConfiguration;
-	}
-
 	private static class ReportExporter<T extends Exporter<? extends ExporterInput, IC, ? extends ExporterConfiguration, ? extends ExporterOutput>, IC extends ReportExportConfiguration> {
 
 		private Class<T> exporterClass;
@@ -54,7 +48,7 @@ public class JasperReportConvertor {
 		}
 	}
 
-	private static final Map<ExportType, ReportExporter> EXPORTERS =
+	private static final Map<ExportType, ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>> EXPORTERS =
 			Collections.unmodifiableMap(Stream.of(
 					new SimpleEntry<>(ExportType.PDF, new ReportExporter<>(JRPdfExporter.class, SimplePdfReportConfiguration::new)),
 
@@ -102,9 +96,11 @@ public class JasperReportConvertor {
 
 	public void convert(JasperPrint jasperPrint) throws ReportConversionException {
 		try {
-			Exporter exporter = Optional.ofNullable(EXPORTERS.get(exportType))
+			SimpleEntry<ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>, Exporter> exporterPair = Optional.ofNullable(EXPORTERS.get(exportType))
 					.map(v -> new SimpleEntry<ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>, Exporter>(v, createExporter.apply(v)))
-					.map(se -> setConfig.apply(se)).orElseThrow(() -> new ReportConversionException("Invalid export file type for " + exportType));
+					.orElseThrow(() -> new ReportConversionException("Invalid export file type for " + exportType));
+
+			Exporter exporter = setExporterConfig(exporterPair);
 
 			SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
 			exporter.setExporterOutput(exporterOutput);
@@ -115,9 +111,7 @@ public class JasperReportConvertor {
 		}
 	}
 
-	public Function<ReportExporter, Exporter> createExporter = JasperReportConvertor::createExporter;
-
-	public Function<SimpleEntry<ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>, Exporter>, Exporter> setConfig = JasperReportConvertor::setExporterConfig;
+	private Function<ReportExporter, Exporter> createExporter = JasperReportConvertor::createExporter;
 
 	private static Exporter createExporter(ReportExporter<? extends Exporter, ? extends ReportExportConfiguration> v) {
 		try {
