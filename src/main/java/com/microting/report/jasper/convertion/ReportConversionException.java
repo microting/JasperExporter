@@ -7,4 +7,8 @@ public class ReportConversionException extends Exception {
 	public ReportConversionException(Throwable e) {
 		super(e);
 	}
+
+	public ReportConversionException(String message) {
+		super(message);
+	}
 }
