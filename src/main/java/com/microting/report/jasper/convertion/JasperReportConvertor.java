@@ -20,6 +20,8 @@ import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.AbstractXlsReportConfiguration;
+import net.sf.jasperreports.export.DocxReportConfiguration;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterConfiguration;
 import net.sf.jasperreports.export.ExporterInput;
@@ -42,7 +44,7 @@ public class JasperReportConvertor {
 		private Class<T> exporterClass;
 		private Supplier<IC> getReportConfiguration;
 
-		public ReportExporter(Class<T> exporterClass, Supplier<IC> getReportConfiguration) {
+		ReportExporter(Class<T> exporterClass, Supplier<IC> getReportConfiguration) {
 			this.exporterClass = exporterClass;
 			this.getReportConfiguration = getReportConfiguration;
 		}
@@ -51,35 +53,12 @@ public class JasperReportConvertor {
 	private static final Map<ExportType, ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>> EXPORTERS =
 			Collections.unmodifiableMap(Stream.of(
 					new SimpleEntry<>(ExportType.PDF, new ReportExporter<>(JRPdfExporter.class, SimplePdfReportConfiguration::new)),
-
-					new SimpleEntry<>(ExportType.DOC, new ReportExporter<>(JRDocxExporter.class, () -> {
-						SimpleDocxReportConfiguration reportConfiguration = new SimpleDocxReportConfiguration();
-						reportConfiguration.setFlexibleRowHeight(Boolean.TRUE);
-						return reportConfiguration;
-					})),
-					new SimpleEntry<>(ExportType.DOCX, new ReportExporter<>(JRDocxExporter.class, () -> {
-						SimpleDocxReportConfiguration reportConfiguration = new SimpleDocxReportConfiguration();
-						reportConfiguration.setFlexibleRowHeight(Boolean.TRUE);
-						return reportConfiguration;
-					})),
-
+					new SimpleEntry<>(ExportType.DOC, new ReportExporter<>(JRDocxExporter.class, JasperReportConvertor::createWinwordReportConfig)),
+					new SimpleEntry<>(ExportType.DOCX, new ReportExporter<>(JRDocxExporter.class, JasperReportConvertor::createWinwordReportConfig)),
 					new SimpleEntry<>(ExportType.ODT, new ReportExporter<>(JROdtExporter.class, SimpleOdtReportConfiguration::new)),
 					new SimpleEntry<>(ExportType.RTF, new ReportExporter<>(JRRtfExporter.class, SimpleRtfReportConfiguration::new)),
-					new SimpleEntry<>(ExportType.XLSX, new ReportExporter<>(JRXlsxExporter.class, () -> {
-						SimpleXlsxReportConfiguration reportConfiguration = new SimpleXlsxReportConfiguration();
-						reportConfiguration.setDetectCellType(Boolean.TRUE);
-						reportConfiguration.setWhitePageBackground(Boolean.FALSE);
-						reportConfiguration.setRemoveEmptySpaceBetweenColumns(Boolean.TRUE);
-						return reportConfiguration;
-					})),
-
-					new SimpleEntry<>(ExportType.XLS, new ReportExporter<>(JRXlsExporter.class, () -> {
-						SimpleXlsReportConfiguration reportConfiguration = new SimpleXlsReportConfiguration();
-						reportConfiguration.setDetectCellType(Boolean.TRUE);
-						reportConfiguration.setWhitePageBackground(Boolean.FALSE);
-						reportConfiguration.setRemoveEmptySpaceBetweenColumns(Boolean.TRUE);
-						return reportConfiguration;
-					})),
+					new SimpleEntry<>(ExportType.XLSX, new ReportExporter<>(JRXlsxExporter.class, JasperReportConvertor::createXlsxReportConfig)),
+					new SimpleEntry<>(ExportType.XLS, new ReportExporter<>(JRXlsExporter.class, JasperReportConvertor::createXlsReportConfig)),
 					new SimpleEntry<>(ExportType.PPT, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new)),
 					new SimpleEntry<>(ExportType.PPTX, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new)))
 					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (l, r) -> {
@@ -121,8 +100,44 @@ public class JasperReportConvertor {
 		}
 	}
 
-	private static Exporter setExporterConfig(SimpleEntry<ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>, Exporter> e) {
-		e.getValue().setConfiguration(e.getKey().getReportConfiguration.get());
-		return e.getValue();
+	private static Exporter setExporterConfig(SimpleEntry<ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>, Exporter> exporterPair) {
+		exporterPair.getValue().setConfiguration(exporterPair.getKey().getReportConfiguration.get());
+		return exporterPair.getValue();
+	}
+
+	private static final ExcelReportConfigBuilder<SimpleXlsReportConfiguration> XLS_REPORT_CONFIG_BUILDER = new ExcelReportConfigBuilder<>();
+	private static final ExcelReportConfigBuilder<SimpleXlsxReportConfiguration> XLSX_REPORT_CONFIG_BUILDER = new ExcelReportConfigBuilder<>();
+
+	private static SimpleXlsReportConfiguration createXlsReportConfig() {
+		try {
+			return XLS_REPORT_CONFIG_BUILDER.create(SimpleXlsReportConfiguration.class);
+		} catch (IllegalAccessException | InstantiationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static SimpleXlsxReportConfiguration createXlsxReportConfig() {
+		try {
+			return XLSX_REPORT_CONFIG_BUILDER.create(SimpleXlsxReportConfiguration.class);
+		} catch (IllegalAccessException | InstantiationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private static class ExcelReportConfigBuilder<T extends AbstractXlsReportConfiguration> {
+
+		T create(Class<T> clazz) throws IllegalAccessException, InstantiationException {
+			T reportConfiguration = clazz.newInstance();
+			reportConfiguration.setDetectCellType(Boolean.TRUE);
+			reportConfiguration.setWhitePageBackground(Boolean.FALSE);
+			reportConfiguration.setRemoveEmptySpaceBetweenColumns(Boolean.TRUE);
+			return reportConfiguration;
+		}
+	}
+
+	private static DocxReportConfiguration createWinwordReportConfig() {
+		SimpleDocxReportConfiguration reportConfiguration = new SimpleDocxReportConfiguration();
+		reportConfiguration.setFlexibleRowHeight(Boolean.TRUE);
+		return reportConfiguration;
 	}
 }
