@@ -1,60 +1,127 @@
 package com.microting.report.jasper;
 
+import com.microting.report.jasper.exceptions.ArgumentException;
+import com.microting.report.jasper.exceptions.ArgumentIsMissingException;
+import com.microting.report.jasper.exceptions.UnsupportedArgumentException;
+import com.microting.report.jasper.exceptions.WrongArgumentException;
+import com.microting.report.jasper.exceptions.WrongArgumentsNumberException;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URI;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Optional;
+
+import static java.lang.System.out;
 
 public class JasperExporter {
 
-	private static final String TEMPLATE = "template";
-	private static final String OUPUTFILE = "outputFile";
-	private static final String URI = "uri";
-	private static final String TYPE = "type";
+	private enum Argument {
+		TEMPLATE("template"), OUPUTFILE("outputFile"), URI("uri"), TYPE("type");
 
-	public static void main(String[] args) {
-		try {
-			JasperExporterEngine engine = new JasperExporterEngine();
-			if ((args.length == 0) || (args.length != 4)) {
-				printMessageAndExit(getUsageText());
-			}
+		private String name;
 
-			for (int i = 0; i < args.length; i++) {
-				String arg = args[i];
-				String argValue = arg.substring(arg.indexOf("=") + 1);
-				if ((argValue == null) || ("".equals(argValue))) {
-					printMessageAndExit("Invalid value for arg:" + arg);
-				}
+		Argument(String name) {
+			this.name = name;
+		}
 
-				if (arg.contains(TEMPLATE)) {
-					engine.setTemplate(argValue);
-				} else if (arg.contains(URI)) {
-					engine.setReportData(new java.net.URI(argValue));
-				} else if (arg.contains(OUPUTFILE)) {
-					if (argValue.contains(File.separator)) {
-						new File(argValue.substring(0, argValue.lastIndexOf(File.separator))).mkdirs();
-					}
-					engine.setOutputStream(new FileOutputStream(argValue));
-				} else if (arg.contains(TYPE)) {
-					engine.setExportType(ExportType.byName(argValue.trim().replace(".", "")));
+		private static Argument byName(String name) {
+			for (Argument argument : Argument.values()) {
+				if (argument.name.equalsIgnoreCase(name)) {
+					return argument;
 				}
 			}
-			engine.export();
-		} catch (Throwable e) {
-			e.printStackTrace();
-			System.exit(-50);
+			return null;
+		}
+
+		@Override
+		public String toString() {
+			return name;
 		}
 	}
 
-	private static void printMessageAndExit(String x) {
-		System.out.println(x);
-		System.exit(0);
+	private String[] arguments;
+
+	enum ExitCode {
+		ERROR(-50), WRONG_ARGUMENTS(0), NORMAL(0);
+
+		private int code;
+
+		ExitCode(int code) {
+			this.code = code;
+		}
+
+		int getCode() {
+			return code;
+		}
+	}
+
+	JasperExporter(String... arguments) {
+		this.arguments = arguments;
+	}
+
+	public static void main(String... args) {
+		JasperExporter endpoint = new JasperExporter(args);
+		System.exit(endpoint.buildReport());
+	}
+
+	private Map<Argument, String> parseArguments() throws WrongArgumentsNumberException, WrongArgumentException, UnsupportedArgumentException {
+		Map<Argument, String> argumentsMap = new EnumMap<>(Argument.class);
+
+		if (arguments.length == 0 || arguments.length != 4) {
+			throw new WrongArgumentsNumberException("Wrong number of arguments");
+		}
+		for (String arg : arguments) {
+			String[] argDef = arg.split("=");
+			if (argDef.length < 2) {
+				throw new WrongArgumentException(arg);
+			}
+			Argument argument = Optional.ofNullable(Argument.byName(argDef[0].substring(1))).orElseThrow(() -> new UnsupportedArgumentException(arg));
+			argumentsMap.put(argument, argDef[1]);
+		}
+		return argumentsMap;
+	}
+
+	int buildReport() {
+		try {
+			JasperExporterEngine engine = new JasperExporterEngine();
+
+			Map<Argument, String> argumentsMap = parseArguments();
+			engine.setTemplate(Optional.ofNullable(argumentsMap.get(Argument.TEMPLATE)).orElseThrow(() -> new ArgumentIsMissingException(Argument.TEMPLATE.toString())));
+			engine.setReportData(new URI(Optional.ofNullable(argumentsMap.get(Argument.URI)).orElseThrow(() -> new ArgumentIsMissingException(Argument.URI.toString()))));
+			engine.setExportType(Optional.ofNullable(argumentsMap.get(Argument.TYPE)).map(s -> ExportType.byName(s.trim().replace(".", ""))).orElseThrow(() -> new ArgumentIsMissingException(Argument.TYPE.toString())));
+			String ouputFileArg = Optional.ofNullable(argumentsMap.get(Argument.OUPUTFILE)).orElseThrow(() -> new ArgumentIsMissingException(Argument.OUPUTFILE.toString()));
+			if (ouputFileArg.contains(File.separator)) {
+				new File(ouputFileArg.substring(0, ouputFileArg.lastIndexOf(File.separator))).mkdirs();
+			}
+			engine.setOutputStream(new FileOutputStream(ouputFileArg));
+
+			engine.export();
+		} catch (WrongArgumentsNumberException e) {
+			printMessage(getUsageText());
+			return ExitCode.WRONG_ARGUMENTS.getCode();
+		} catch (ArgumentException e) {
+			printMessage(getUsageText());
+			printMessage(e.getMessage());
+			return ExitCode.WRONG_ARGUMENTS.getCode();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			return ExitCode.ERROR.getCode();
+		}
+		return ExitCode.NORMAL.getCode();
+	}
+
+	private static void printMessage(String x) {
+		out.println(x);
 	}
 
 	private static String getUsageText() {
 		String usage = "Usage: java -jar JasperExporter.jar";
-		usage = usage + String.format(" -%s=<template.jrxml|template.jasper>", TEMPLATE);
-		usage = usage + String.format(" -%s=<http|file|ftp://pathToMyData >", URI);
-		usage = usage + String.format(" -%s=<pdf|rtf|odt|doc|docx|xls|xlsx|ppt|pptx>", TYPE);
-		usage = usage + String.format(" -%s=<myExportedFile.pdf>", OUPUTFILE);
+		usage = usage + String.format(" -%s=<template.jrxml|template.jasper>", Argument.TEMPLATE);
+		usage = usage + String.format(" -%s=<http|file|ftp://pathToMyData >", Argument.URI);
+		usage = usage + String.format(" -%s=<pdf|rtf|odt|doc|docx|xls|xlsx|ppt|pptx>", Argument.TYPE);
+		usage = usage + String.format(" -%s=<myExportedFile.pdf>", Argument.OUPUTFILE);
 		return usage;
 	}
 }

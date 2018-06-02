@@ -1,4 +1,4 @@
-package com.microting.report.jasper;
+package com.microting.report.jasper.exceptions;
 
 public class ReportExportException extends Exception {
 

@@ -1,4 +1,4 @@
-package com.microting.report.jasper.convertion;
+package com.microting.report.jasper.exceptions;
 
 public class ReportConversionException extends Exception {
 

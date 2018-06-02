@@ -1,6 +1,8 @@
 package com.microting.report.jasper.convertion;
 
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.microting.report.jasper.ExportType;
+import com.microting.report.jasper.exceptions.ReportConversionException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -34,6 +37,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfReportConfiguration;
 import net.sf.jasperreports.export.SimplePptxReportConfiguration;
 import net.sf.jasperreports.export.SimpleRtfReportConfiguration;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
@@ -43,24 +47,26 @@ public class JasperReportConvertor {
 
 		private Class<T> exporterClass;
 		private Supplier<IC> getReportConfiguration;
+		private Class<? extends ExporterOutput> exporterOutputClass;
 
-		ReportExporter(Class<T> exporterClass, Supplier<IC> getReportConfiguration) {
+		ReportExporter(Class<T> exporterClass, Supplier<IC> getReportConfiguration, Class<? extends ExporterOutput> exporterOutputClass) {
 			this.exporterClass = exporterClass;
 			this.getReportConfiguration = getReportConfiguration;
+			this.exporterOutputClass = exporterOutputClass;
 		}
 	}
 
 	private static final Map<ExportType, ReportExporter<? extends Exporter, ? extends ReportExportConfiguration>> EXPORTERS =
 			Collections.unmodifiableMap(Stream.of(
-					new SimpleEntry<>(ExportType.PDF, new ReportExporter<>(JRPdfExporter.class, SimplePdfReportConfiguration::new)),
-					new SimpleEntry<>(ExportType.DOC, new ReportExporter<>(JRDocxExporter.class, JasperReportConvertor::createWinwordReportConfig)),
-					new SimpleEntry<>(ExportType.DOCX, new ReportExporter<>(JRDocxExporter.class, JasperReportConvertor::createWinwordReportConfig)),
-					new SimpleEntry<>(ExportType.ODT, new ReportExporter<>(JROdtExporter.class, SimpleOdtReportConfiguration::new)),
-					new SimpleEntry<>(ExportType.RTF, new ReportExporter<>(JRRtfExporter.class, SimpleRtfReportConfiguration::new)),
-					new SimpleEntry<>(ExportType.XLSX, new ReportExporter<>(JRXlsxExporter.class, JasperReportConvertor::createXlsxReportConfig)),
-					new SimpleEntry<>(ExportType.XLS, new ReportExporter<>(JRXlsExporter.class, JasperReportConvertor::createXlsReportConfig)),
-					new SimpleEntry<>(ExportType.PPT, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new)),
-					new SimpleEntry<>(ExportType.PPTX, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new)))
+					new SimpleEntry<>(ExportType.PDF, new ReportExporter<>(JRPdfExporter.class, SimplePdfReportConfiguration::new, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.DOC, new ReportExporter<>(JRDocxExporter.class, JasperReportConvertor::createWinwordReportConfig, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.DOCX, new ReportExporter<>(JRDocxExporter.class, JasperReportConvertor::createWinwordReportConfig, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.ODT, new ReportExporter<>(JROdtExporter.class, SimpleOdtReportConfiguration::new, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.RTF, new ReportExporter<>(JRRtfExporter.class, SimpleRtfReportConfiguration::new, SimpleWriterExporterOutput.class)),
+					new SimpleEntry<>(ExportType.XLSX, new ReportExporter<>(JRXlsxExporter.class, JasperReportConvertor::createXlsxReportConfig, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.XLS, new ReportExporter<>(JRXlsExporter.class, JasperReportConvertor::createXlsReportConfig, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.PPT, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new, SimpleOutputStreamExporterOutput.class)),
+					new SimpleEntry<>(ExportType.PPTX, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new, SimpleOutputStreamExporterOutput.class)))
 					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (l, r) -> {
 						throw new IllegalArgumentException("Duplicate keys " + l + "and " + r + ".");
 					}, () -> new EnumMap<>(ExportType.class))));
@@ -80,14 +86,24 @@ public class JasperReportConvertor {
 					.orElseThrow(() -> new ReportConversionException("Invalid export file type for " + exportType));
 
 			Exporter exporter = setExporterConfig(exporterPair);
-
-			SimpleOutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(outputStream);
-			exporter.setExporterOutput(exporterOutput);
+			setExporterOutput(exporter, exporterPair.getKey().exporterOutputClass);
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 			exporter.exportReport();
 		} catch (Throwable e) {
 			throw new ReportConversionException(e);
 		}
+	}
+
+	private void setExporterOutput(Exporter exporter, Class<? extends ExporterOutput> exporterOutputClass) {
+		ExporterOutput exporterOutput;
+		try {
+			Constructor<? extends ExporterOutput> constructor = exporterOutputClass.getConstructor(OutputStream.class);
+			exporterOutput = constructor.newInstance(outputStream);
+		} catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+			throw new RuntimeException(e);
+		}
+
+		exporter.setExporterOutput(exporterOutput);
 	}
 
 	private Function<ReportExporter, Exporter> createExporter = JasperReportConvertor::createExporter;

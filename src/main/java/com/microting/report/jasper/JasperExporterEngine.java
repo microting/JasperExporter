@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 
+import com.microting.report.jasper.exceptions.ReportExportException;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
