@@ -5,6 +5,8 @@ import com.microting.report.jasper.exceptions.ArgumentIsMissingException;
 import com.microting.report.jasper.exceptions.UnsupportedArgumentException;
 import com.microting.report.jasper.exceptions.WrongArgumentException;
 import com.microting.report.jasper.exceptions.WrongArgumentsNumberException;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.time.StopWatch;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,6 +17,7 @@ import java.util.Optional;
 
 import static java.lang.System.out;
 
+@Log4j2
 public class JasperExporter {
 
 	private enum Argument {
@@ -84,6 +87,9 @@ public class JasperExporter {
 	}
 
 	int buildReport() {
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+
 		try {
 			JasperExporterEngine engine = new JasperExporterEngine();
 
@@ -96,19 +102,25 @@ public class JasperExporter {
 				new File(ouputFileArg.substring(0, ouputFileArg.lastIndexOf(File.separator))).mkdirs();
 			}
 			engine.setOutputStream(new FileOutputStream(ouputFileArg));
+			log.debug("Start building report. Template: {}, DataSource: {}, Type: {}, Output file: {}", argumentsMap.get(Argument.TEMPLATE),
+					argumentsMap.get(Argument.URI), argumentsMap.get(Argument.TYPE), argumentsMap.get(Argument.OUPUTFILE));
 
 			engine.export();
 		} catch (WrongArgumentsNumberException e) {
+			log.error(e.getMessage());
 			printMessage(getUsageText());
 			return ExitCode.WRONG_ARGUMENTS.getCode();
 		} catch (ArgumentException e) {
+			log.error(e.getMessage());
 			printMessage(getUsageText());
 			printMessage(e.getMessage());
 			return ExitCode.WRONG_ARGUMENTS.getCode();
 		} catch (Throwable e) {
 			e.printStackTrace();
+			log.error(e.getMessage(), e);
 			return ExitCode.ERROR.getCode();
 		}
+		log.debug("Report was build in {} ms", stopWatch.getTime());
 		return ExitCode.NORMAL.getCode();
 	}
 

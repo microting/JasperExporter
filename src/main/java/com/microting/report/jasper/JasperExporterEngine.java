@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.microting.report.jasper.exceptions.ReportExportException;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
@@ -26,14 +27,14 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-public class JasperExporterEngine {
+class JasperExporterEngine {
 
 	private URI uri;
 	private String mainTemplate;
 	private OutputStream outputStream;
 	private ExportType exportType;
 
-	public void export() throws ReportExportException {
+	void export() throws ReportExportException {
 		try {
 			JasperReport template = loadTemplate(mainTemplate);
 			String query = template.getQuery().getText();
@@ -49,13 +50,13 @@ public class JasperExporterEngine {
 		}
 	}
 
-	public static HashMap<String, Object> getDefaultConfiguration(String template) throws IOException {
-		HashMap<String, Object> config = new HashMap();
+	private static Map<String, Object> getDefaultConfiguration(String template) throws IOException {
+		Map<String, Object> config = new HashMap();
 		config.put("REPORT_FILE_RESOLVER", new SimpleFileResolver(new File(ReportExporterHelper.getTemplateFolder(template))));
 		return config;
 	}
 
-	protected JasperReport loadTemplate(String templateFile) throws JRException {
+	private JasperReport loadTemplate(String templateFile) throws JRException {
 		if ((templateFile != null) && (!"".equals(templateFile))) {
 			if (FilenameUtils.isExtension(templateFile, new String[]{"jrxml", "jasper"})) {
 			}
@@ -69,7 +70,7 @@ public class JasperExporterEngine {
 		return compileTemplateAndDependencies(templateFile);
 	}
 
-	protected JasperReport compileTemplateAndDependencies(String templateFile) throws JRException {
+	private JasperReport compileTemplateAndDependencies(String templateFile) throws JRException {
 		templateFile = templateFile.endsWith("jrxml") ? templateFile : ReportExporterHelper.changeFileExtension(templateFile, "jrxml");
 
 		JasperDesign design = JRXmlLoader.load(templateFile);
@@ -86,22 +87,22 @@ public class JasperExporterEngine {
 		return (JasperReport) JRLoader.loadObjectFromFile(compiledFile);
 	}
 
-	public void setTemplate(String templateFile) {
+	void setTemplate(String templateFile) {
 		if (!ReportExporterHelper.fileExists(templateFile)) {
 			throw new IllegalArgumentException("This template file does not exists " + templateFile);
 		}
 		mainTemplate = templateFile;
 	}
 
-	public void setReportData(URI uri) {
+	void setReportData(URI uri) {
 		this.uri = uri;
 	}
 
-	public void setOutputStream(OutputStream outputStream) {
+	void setOutputStream(OutputStream outputStream) {
 		this.outputStream = outputStream;
 	}
 
-	public void setExportType(ExportType exportType) {
+	void setExportType(ExportType exportType) {
 		this.exportType = exportType;
 	}
 }
