@@ -97,11 +97,11 @@ public class JasperExporter {
 			engine.setTemplate(Optional.ofNullable(argumentsMap.get(Argument.TEMPLATE)).orElseThrow(() -> new ArgumentIsMissingException(Argument.TEMPLATE.toString())));
 			engine.setReportData(new URI(Optional.ofNullable(argumentsMap.get(Argument.URI)).orElseThrow(() -> new ArgumentIsMissingException(Argument.URI.toString()))));
 			engine.setExportType(Optional.ofNullable(argumentsMap.get(Argument.TYPE)).map(s -> ExportType.byName(s.trim().replace(".", ""))).orElseThrow(() -> new ArgumentIsMissingException(Argument.TYPE.toString())));
-			String ouputFileArg = Optional.ofNullable(argumentsMap.get(Argument.OUPUTFILE)).orElseThrow(() -> new ArgumentIsMissingException(Argument.OUPUTFILE.toString()));
-			if (ouputFileArg.contains(File.separator)) {
-				new File(ouputFileArg.substring(0, ouputFileArg.lastIndexOf(File.separator))).mkdirs();
+			String outputFileArg = Optional.ofNullable(argumentsMap.get(Argument.OUPUTFILE)).orElseThrow(() -> new ArgumentIsMissingException(Argument.OUPUTFILE.toString()));
+			if (outputFileArg.contains(File.separator)) {
+				new File(outputFileArg.substring(0, outputFileArg.lastIndexOf(File.separator))).mkdirs();
 			}
-			engine.setOutputStream(new FileOutputStream(ouputFileArg));
+			engine.setOutputStream(new FileOutputStream(outputFileArg));
 			log.debug("Start building report. Template: {}, DataSource: {}, Type: {}, Output file: {}", argumentsMap.get(Argument.TEMPLATE),
 					argumentsMap.get(Argument.URI), argumentsMap.get(Argument.TYPE), argumentsMap.get(Argument.OUPUTFILE));
 

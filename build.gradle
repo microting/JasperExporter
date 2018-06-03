@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    compile 'net.sf.jasperreports:jasperreports:6.5.1',
+    compile 'net.sf.jasperreports:jasperreports:6.6.0',
             'commons-io:commons-io:2.6',
             'xalan:xalan:2.7.2',
             'org.apache.poi:poi:3.15',

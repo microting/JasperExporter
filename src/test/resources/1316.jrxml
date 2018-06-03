@@ -130,7 +130,7 @@
 			</textField>
 			<image>
 				<reportElement x="480" y="0" width="74" height="70"/>
-				<imageExpression><![CDATA["logo2.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{REPORT_CLASS_LOADER}.getResourceAsStream("logo2.png")]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -498,7 +498,7 @@
 				<reportElement x="0" y="34" width="554" height="176"/>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("C1316/fields/F3789/F3789_value")]]></dataSourceExpression>
 				<returnValue subreportVariable="PAGE_COUNT" toVariable="V1_PICTURES"/>
-				<subreportExpression><![CDATA["3789_extra_picture.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{REPORT_CLASS_LOADER}.getResourceAsStream("3789_extra_picture.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
 				<reportElement x="1" y="10" width="549" height="20"/>

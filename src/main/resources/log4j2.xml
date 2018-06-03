@@ -6,11 +6,11 @@
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
-        <!--<File name="JRFile" fileName="logs/jr.log">-->
-            <!--<PatternLayout>-->
-                <!--<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>-->
-            <!--</PatternLayout>-->
-        <!--</File>-->
+        <!--<File name="JRFile" fileName="logs/jr.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>-->
     </Appenders>
     <Loggers>
         <Root level="WARN">
