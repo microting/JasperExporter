@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 4.5.0  -->
+<!-- 2017-05-09T13:21:08 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Extra_Pictures" columnCount="2" printOrder="Horizontal" pageWidth="550" pageHeight="802" columnWidth="275" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" whenResourceMissingType="Empty">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="24"/>
+	<subDataset name="Table Dataset 1"/>
+	<queryString language="xPath">
+		<![CDATA[/root/C24/F127]]>
+	</queryString>
+	<field name="picture" class="java.lang.String">
+		<fieldDescription><![CDATA[child::text()]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="210" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="6" width="264" height="198"/>
+				<imageExpression><![CDATA[$F{picture}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
