@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 4.5.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tester" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="1316"/>
+	<queryString language="XPath">
+		<![CDATA[/root/C1316]]>
+	</queryString>
+	<field name="case_id" class="java.lang.String">
+		<fieldDescription><![CDATA[@case_id]]></fieldDescription>
+	</field>
+	<field name="serial_number" class="java.lang.String">
+		<fieldDescription><![CDATA[@serial_number]]></fieldDescription>
+	</field>
+	<field name="worker" class="java.lang.String">
+		<fieldDescription><![CDATA[worker]]></fieldDescription>
+	</field>
+	<field name="check_id" class="java.lang.String">
+		<fieldDescription><![CDATA[check_id]]></fieldDescription>
+	</field>
+	<field name="check_date" class="java.lang.String">
+		<fieldDescription><![CDATA[check_date]]></fieldDescription>
+	</field>
+	<field name="F3801_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3801/F3801_value]]></fieldDescription>
+	</field>
+	<field name="F3800_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3800/F3800_value]]></fieldDescription>
+	</field>
+	<field name="F3799_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3799/F3799_value]]></fieldDescription>
+	</field>
+	<field name="F3798_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3798/F3798_value]]></fieldDescription>
+	</field>
+	<field name="F3797_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3797/F3797_value]]></fieldDescription>
+	</field>
+	<field name="F3796_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3796/F3796_value]]></fieldDescription>
+	</field>
+	<field name="F3795_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3795/F3795_value]]></fieldDescription>
+	</field>
+	<field name="F3794_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3794/F3794_value]]></fieldDescription>
+	</field>
+	<field name="F3793_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3793/F3793_value]]></fieldDescription>
+	</field>
+	<field name="F3792_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3792/F3792_value]]></fieldDescription>
+	</field>
+	<field name="F3791_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3791/F3791_value]]></fieldDescription>
+	</field>
+	<field name="F3790_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3790/F3790_value]]></fieldDescription>
+	</field>
+	<field name="F3789_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3789/F3789_value]]></fieldDescription>
+	</field>
+	<field name="F3788_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3788/F3788_value]]></fieldDescription>
+	</field>
+	<field name="F3787_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3787/F3787_value]]></fieldDescription>
+	</field>
+	<field name="F3786_value" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F3786/F3786_value]]></fieldDescription>
+	</field>
+	<variable name="V1_PICTURES" class="java.lang.Integer"/>
+	<variable name="V2_PICTURES" class="java.lang.Integer"/>
+	<variable name="V3_PICTURES" class="java.lang.Integer"/>
+	<variable name="V4_PICTURES" class="java.lang.Integer"/>
+	<variable name="V5_PICTURES" class="java.lang.Integer"/>
+	<variable name="V6_PICTURES" class="java.lang.Integer"/>
+	<variable name="V7_PICTURES" class="java.lang.Integer"/>
+	<variable name="V8_PICTURES" class="java.lang.Integer"/>
+	<variable name="V9_PICTURES" class="java.lang.Integer"/>
+	<variable name="V10_PICTURES" class="java.lang.Integer"/>
+	<variable name="V11_PICTURES" class="java.lang.Integer"/>
+	<variable name="V12_PICTURES" class="java.lang.Integer"/>
+	<variable name="V13_PICTURES" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<textField>
+				<reportElement x="60" y="-20" width="80" height="21"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{case_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="-19" width="50" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CaseID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="-19" width="50" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[S.Nr.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="-20" width="80" height="21"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serial_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="246" y="-20" width="50" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CheckID:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="300" y="-21" width="80" height="21"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{check_id}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="480" y="0" width="74" height="70"/>
+				<imageExpression><![CDATA["logo2.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="690" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="109" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Status på kontrol:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="134" width="180" height="20"/>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Manglende godkendelse grundet:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="84" width="180" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Kundenavn:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="205" width="180" height="20"/>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Operationel konsekvens:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="230" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Partistørrelse:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="255" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Stikprøve antal:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="668" width="550" height="1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="675" width="120" height="15"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Indgående kvalitetskontrol]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="675" width="100" height="15"/>
+				<textElement textAlignment="Left">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Revision: 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="295" y="675" width="100" height="15"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Dato: 21.02.2018]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="675" width="100" height="15"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Godkendt af: NWL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="103" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="180" y="128" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="180" y="225" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="82" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3786_value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="107" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3787_value}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="204" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3790_value}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="180" y="251" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="230" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3792_value}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="180" y="277" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="256" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3794_value}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="306" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nøgleværdi 1:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="324" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="303" width="374" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F3795_value}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="331" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nøgleværdi 2:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="349" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="328" width="374" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F3796_value}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="357" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nøgleværdi 3:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="375" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="354" width="374" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F3797_value}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="405" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Tidsforbrug i timer og minutter:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="425" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="404" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3798_value}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="435" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Dato for næste opfølgning:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="456" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="435" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{F3799_value}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="465" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Kontrol udført:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="486" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="465" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{check_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="495" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Kontrol udført af:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="516" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="180" y="495" width="374" height="21"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{worker}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="563" width="180" height="20">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Underskrift:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="180" y="584" width="374" height="1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="-28" width="554" height="28"/>
+				<textElement textAlignment="Left">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indgående kvalitetskontrol]]></text>
+			</staticText>
+			<image>
+				<reportElement x="180" y="534" width="374" height="50"/>
+				<imageExpression><![CDATA[$F{F3800_value}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="180" y="134" width="374" height="66"/>
+			</rectangle>
+			<textField>
+				<reportElement x="184" y="138" width="365" height="59"/>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{F3788_value}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="583">
+			<break>
+				<reportElement x="0" y="10" width="100" height="1"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="34" width="554" height="176"/>
+				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("C1316/fields/F3789/F3789_value")]]></dataSourceExpression>
+				<returnValue subreportVariable="PAGE_COUNT" toVariable="V1_PICTURES"/>
+				<subreportExpression><![CDATA["3789_extra_picture.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="1" y="10" width="549" height="20"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Billede(r) af mangler/uregelmæssigheder]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

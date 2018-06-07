@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <C1316 case_id="4381" case_name="Indgående kvalitetskontrol" serial_number="4381/2392" check_list_status="approved">
+        <worker>René Tester</worker>
+        <check_id>1912</check_id>
+        <date>2018-03-09 01:53:27</date>
+        <check_date>2018-03-09 01:53:27</check_date>
+        <check_lists>
+            <C1317>approved</C1317>
+        </check_lists>
+        <fields>
+            <F3786 name="Søg efter kunde" parent="Indgående kvalitetskontrol">
+                <F3786_value field_value_id="5528"><![CDATA[null]]></F3786_value>
+            </F3786>
+            <F3787 name="Kontrol godkendt/ikke godkendt" parent="Indgående kvalitetskontrol">
+                <F3787_value field_value_id="5529"><![CDATA[]]></F3787_value>
+            </F3787>
+            <F3788 name="Hvis ikke godkendt: Beskriv problem" parent="Indgående kvalitetskontrol">
+                <F3788_value field_value_id="5530"><![CDATA[]]></F3788_value>
+            </F3788>
+            <F3789 name="Billede(r) af mangler/uregelmæssigheder" parent="Indgående kvalitetskontrol">
+						<F3789_value field_value_id="5531"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2122_64eb07e8fecc6b750ed0ea38b21e5e54.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2123_e7d3ba93c223602b12c6ff64c3d1c266.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2124_f48d0a4845dbbb09017ec9af6e7d8b84.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2125_cb3dd0656828a2132d062437bfddbb6f.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2126_61122a8d117b5fc3dbe06aa30a008e46.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2127_121e6cfe30262244f87953de7f49ca21.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2128_f8a68c6dac0fdd656fb4fc178e7c2f6e.jpeg]]></F3789_value>
+						<F3789_value field_value_id="5532"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2129_9cba4723240147a2ad4f60cbdfbd113b.jpeg]]></F3789_value>
+            </F3789>
+            <F3790 name="Operationel konsekvens?" parent="Indgående kvalitetskontrol">
+                <F3790_value field_value_id="5533"><![CDATA[]]></F3790_value>
+            </F3790>
+            <F3791 name="Læs mere om operationelle konsekvenser." parent="Indgående kvalitetskontrol">
+                <F3791_value field_value_id="5534"><![CDATA[]]></F3791_value>
+            </F3791>
+            <F3792 name="Partistørrelse antal" parent="Indgående kvalitetskontrol">
+                <F3792_value field_value_id="5535"><![CDATA[]]></F3792_value>
+            </F3792>
+            <F3793 name="Partistørrelse og tilhørende stikprøve" parent="Indgående kvalitetskontrol">
+                <F3793_value field_value_id="5536"><![CDATA[]]></F3793_value>
+            </F3793>
+            <F3794 name="Stikprøve antal" parent="Indgående kvalitetskontrol">
+                <F3794_value field_value_id="5537"><![CDATA[]]></F3794_value>
+            </F3794>
+            <F3795 name="Nøgleværdi 1" parent="Indgående kvalitetskontrol">
+                <F3795_value field_value_id="5538"><![CDATA[1]]></F3795_value>
+            </F3795>
+            <F3796 name="Nøgleværdi 2" parent="Indgående kvalitetskontrol">
+                <F3796_value field_value_id="5539"><![CDATA[2]]></F3796_value>
+            </F3796>
+            <F3797 name="Nøgleværdi 3" parent="Indgående kvalitetskontrol">
+                <F3797_value field_value_id="5540"><![CDATA[3]]></F3797_value>
+            </F3797>
+            <F3798 name="Angiv tidsforbrug" parent="Indgående kvalitetskontrol">
+                <F3798_value field_value_id="5541"><![CDATA[]]></F3798_value>
+            </F3798>
+            <F3799 name="Sæt dato for næste opfølgning" parent="Indgående kvalitetskontrol">
+                <F3799_value field_value_id="5542"><![CDATA[]]></F3799_value>
+            </F3799>
+            <F3800 name="Underskriv her" parent="Indgående kvalitetskontrol">
+                <F3800_value field_value_id="5543"><![CDATA[https://www2.microting1eform.com/api/template-files/get-image/2108_2339a8c55c5b9a3fdde18d0d56dd13c4.png]]></F3800_value>
+            </F3800>
+            <F3801 name="Tryk her for at gemme" parent="Indgående kvalitetskontrol">
+                <F3801_value field_value_id="5544"><![CDATA[]]></F3801_value>
+            </F3801>
+        </fields>
+    </C1316>
+</root>
