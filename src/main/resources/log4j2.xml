@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <File name="MainFile" fileName="logs/reportexporter.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <!--<File name="JRFile" fileName="logs/jr.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>-->
+    </Appenders>
+    <Loggers>
+        <Root level="WARN">
+            <AppenderRef ref="MainFile"/>
+        </Root>
+        <Logger name="com.microting"  level="DEBUG" additivity="false">
+            <AppenderRef ref="MainFile"/>
+        </Logger>
+        <!--<Logger name="net.sf.jasperreports" level="DEBUG" additivity="false">
+            <AppenderRef ref="JRFile"/>
+        </Logger>-->
+    </Loggers>
+</Configuration>
