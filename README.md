@@ -1,3 +1,7 @@
+# JasperExporter
+
+[![Build Status](https://travis-ci.org/microting/JasperExporter.svg?branch=master)](https://travis-ci.org/microting/JasperExporter)
+
 #### Prerequisites
 
 1. Java8 (JRE) should be installed for running tool.
