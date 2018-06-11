@@ -25,10 +25,11 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class DifferentOutputFormatsTest {
 
-	private static final String REPORT1_TEMPLATE_WITH_SUBREPORT_EXTERNAL_IMAGES = "1316.jrxml";
+	private static final String REPORT1_TEMPLATE_WITH_SUBREPORT_EXTERNAL_IMAGES = "report_without_https_images.jrxml";
 	private static final String REPORT1_DATASOURCE = "201805281421570431_5491.xml";
 
-	private static final Report[] REPORTS = {Report.builder().template(REPORT1_TEMPLATE_WITH_SUBREPORT_EXTERNAL_IMAGES).inputDataUri(REPORT1_DATASOURCE).build()};
+	private static final Report[] REPORTS = {Report.builder().template(REPORT1_TEMPLATE_WITH_SUBREPORT_EXTERNAL_IMAGES)
+			.inputDataUri(REPORT1_DATASOURCE).build()};
 
 	@Before
 	public void setUp() {
@@ -52,7 +53,8 @@ public class DifferentOutputFormatsTest {
 			for (ExportType exportType : ExportType.values()) {
 				try {
 					data.add(new Object[]{Paths.get(ClassLoader.getSystemResource(report.getTemplate()).toURI()).toString(),
-							ClassLoader.getSystemResource(report.getInputDataUri()).getPath(), exportType.name().toLowerCase(),
+							ClassLoader.getSystemResource(report.getInputDataUri()).getPath(),
+							exportType.name().toLowerCase(),
 							generateOutputFileName(exportType.name().toLowerCase())});
 				} catch (URISyntaxException e) {
 					throw new RuntimeException(e);
@@ -63,9 +65,7 @@ public class DifferentOutputFormatsTest {
 	}
 
 	private static String generateOutputFileName(String type) {
-		return String.format("./out/%s.%s",
-				new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()),
-				type);
+		return String.format("./out/%s.%s", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()), type);
 	}
 
 	@Parameter
@@ -102,7 +102,8 @@ public class DifferentOutputFormatsTest {
 
 	@Test
 	public void buildReport() {
-		JasperExporter endpoint = new JasperExporter(templateArg(template), uriArg(uri), typeArg(type), outputFileArg(outputFile));
+		JasperExporter endpoint = new JasperExporter(templateArg(template), uriArg(uri),
+				typeArg(type), outputFileArg(outputFile));
 		assertEquals(ExitCode.NORMAL.getCode(), endpoint.buildReport());
 	}
 }
