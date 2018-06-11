@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.11.+"
+    }
+}
+
 plugins {
     id 'java'
 }
@@ -8,6 +18,8 @@ repositories {
     maven { url "http://jasperreports.sourceforge.net/maven2" }
     maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts" }
 }
+
+apply plugin: "build-time-tracker"
 
 dependencies {
     compile 'net.sf.jasperreports:jasperreports:6.6.0',
@@ -37,4 +49,45 @@ jar {
                 exclude "META-INF/*.DSA"
                 exclude "META-INF/*.RSA"
             }
+}
+
+import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.*
+import static org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
+test {
+    testLogging {
+        events FAILED,
+                PASSED,
+                SKIPPED
+        exceptionFormat FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        debug {
+            events STARTED,
+                    FAILED,
+                    PASSED,
+                    SKIPPED,
+                    STANDARD_ERROR,
+                    STANDARD_OUT
+            exceptionFormat FULL
+            showExceptions true
+            showCauses true
+            showStackTraces true
+        }
+
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+    }
+}
+
+buildtimetracker {
+    reporters {
+        summary {
+            ordered false
+            threshold 50
+            barstyle "unicode"
+        }
+    }
 }

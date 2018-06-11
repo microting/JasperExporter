@@ -103,6 +103,6 @@ public class DifferentOutputFormatsTest {
 	@Test
 	public void buildReport() {
 		JasperExporter endpoint = new JasperExporter(templateArg(template), uriArg(uri), typeArg(type), outputFileArg(outputFile));
-		assertEquals(endpoint.buildReport(), ExitCode.NORMAL.getCode());
+		assertEquals(ExitCode.NORMAL.getCode(), endpoint.buildReport());
 	}
 }
