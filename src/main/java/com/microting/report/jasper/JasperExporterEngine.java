@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.microting.report.jasper.exceptions.ReportExportException;
-import lombok.extern.log4j.Log4j2;
 import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExpression;
@@ -32,12 +31,14 @@ import net.sf.jasperreports.repo.PersistenceServiceFactory;
 import net.sf.jasperreports.repo.RepositoryService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.logging.log4j.Logger;
 
 import static org.apache.logging.log4j.util.Strings.isBlank;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
-@Log4j2
 class JasperExporterEngine {
+
+	private final Logger log;
 
 	private URI uri;
 	private String mainTemplate;
@@ -46,6 +47,10 @@ class JasperExporterEngine {
 
 	private static final Pattern JASPER_WITH_QUOTES = Pattern.compile("(\".*\\.jasper\")");
 	private static final Pattern JASPER_WITHOUT_QUOTES = Pattern.compile("(\\([^()].*\\.jasper\\))");
+
+	JasperExporterEngine(Logger log) {
+		this.log = log;
+	}
 
 	void export() throws ReportExportException {
 		try {

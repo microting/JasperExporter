@@ -5,8 +5,14 @@ import com.microting.report.jasper.exceptions.ArgumentIsMissingException;
 import com.microting.report.jasper.exceptions.UnsupportedArgumentException;
 import com.microting.report.jasper.exceptions.WrongArgumentException;
 import com.microting.report.jasper.exceptions.WrongArgumentsNumberException;
-import lombok.extern.log4j.Log4j2;
+import com.microting.report.jasper.utils.LoggerUtils;
 import org.apache.commons.lang.time.StopWatch;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.NullConfiguration;
+import org.apache.logging.log4j.util.Strings;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,11 +23,15 @@ import java.util.Optional;
 
 import static java.lang.System.out;
 
-@Log4j2
 public class JasperExporter {
 
+	private static final Configuration EMPTY_CONFIGURATION = new NullConfiguration();
+	private static final LoggerContext LOGGER_CONTEXT = Configurator.initialize(EMPTY_CONFIGURATION);
+
+	private Logger log;
+
 	private enum Argument {
-		TEMPLATE("template"), OUPUTFILE("outputFile"), URI("uri"), TYPE("type");
+		TEMPLATE("template"), OUPUTFILE("outputFile"), URI("uri"), TYPE("type"), LOGGING_ENABLED("loggingEnabled");
 
 		private String name;
 
@@ -72,7 +82,7 @@ public class JasperExporter {
 	private Map<Argument, String> parseArguments() throws WrongArgumentsNumberException, WrongArgumentException, UnsupportedArgumentException {
 		Map<Argument, String> argumentsMap = new EnumMap<>(Argument.class);
 
-		if (arguments.length == 0 || arguments.length != 4) {
+		if (arguments.length == 0 || arguments.length < 4) {
 			throw new WrongArgumentsNumberException("Wrong number of arguments");
 		}
 		for (String arg : arguments) {
@@ -87,13 +97,33 @@ public class JasperExporter {
 	}
 
 	int buildReport() {
+		Map<Argument, String> argumentsMap;
+		try {
+			argumentsMap = parseArguments();
+		} catch (WrongArgumentsNumberException e) {
+			System.err.println(String.format("Failed to parse arguments. Details: %s", e.getMessage()));
+			printMessage(getUsageText());
+			return ExitCode.WRONG_ARGUMENTS.getCode();
+		} catch (ArgumentException e) {
+			System.err.println(String.format("Failed to parse arguments. Details: %s", e.getMessage()));
+			printMessage(getUsageText());
+			printMessage(e.getMessage());
+			return ExitCode.WRONG_ARGUMENTS.getCode();
+		}
+
+		String loggingEnabled = argumentsMap.get(Argument.LOGGING_ENABLED);
+		if (Strings.isBlank(loggingEnabled) || !Boolean.valueOf(loggingEnabled)) {
+			LoggerContextHolder.INSTANCE.setValue(LOGGER_CONTEXT);
+		} else {
+			LoggerContextHolder.INSTANCE.setValue(LoggerContext.getContext());
+		}
+		log = LoggerContextHolder.INSTANCE.getValue().getLogger(LoggerUtils.toLoggerName(getClass()));
+
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
 		try {
-			JasperExporterEngine engine = new JasperExporterEngine();
-
-			Map<Argument, String> argumentsMap = parseArguments();
+			JasperExporterEngine engine = new JasperExporterEngine(log);
 			engine.setTemplate(Optional.ofNullable(argumentsMap.get(Argument.TEMPLATE)).orElseThrow(() -> new ArgumentIsMissingException(Argument.TEMPLATE.toString())));
 			engine.setReportData(new URI(Optional.ofNullable(argumentsMap.get(Argument.URI)).orElseThrow(() -> new ArgumentIsMissingException(Argument.URI.toString()))));
 			engine.setExportType(Optional.ofNullable(argumentsMap.get(Argument.TYPE)).map(s -> ExportType.byName(s.trim().replace(".", ""))).orElseThrow(() -> new ArgumentIsMissingException(Argument.TYPE.toString())));
@@ -106,15 +136,6 @@ public class JasperExporter {
 					argumentsMap.get(Argument.URI), argumentsMap.get(Argument.TYPE), argumentsMap.get(Argument.OUPUTFILE));
 
 			engine.export();
-		} catch (WrongArgumentsNumberException e) {
-			log.error(e.getMessage());
-			printMessage(getUsageText());
-			return ExitCode.WRONG_ARGUMENTS.getCode();
-		} catch (ArgumentException e) {
-			log.error(e.getMessage());
-			printMessage(getUsageText());
-			printMessage(e.getMessage());
-			return ExitCode.WRONG_ARGUMENTS.getCode();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			log.error(e.getMessage(), e);
@@ -134,6 +155,7 @@ public class JasperExporter {
 		usage = usage + String.format(" -%s=<http|file|ftp://pathToMyData >", Argument.URI);
 		usage = usage + String.format(" -%s=<pdf|rtf|odt|doc|docx|xls|xlsx|ppt|pptx>", Argument.TYPE);
 		usage = usage + String.format(" -%s=<myExportedFile.pdf>", Argument.OUPUTFILE);
+		usage = usage + String.format(" -%s=<true|false>", Argument.LOGGING_ENABLED);
 		return usage;
 	}
 }
