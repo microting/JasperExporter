@@ -8,7 +8,7 @@
 		<fieldDescription><![CDATA[child::text()]]></fieldDescription>
 	</field>
 	<detail>
-		<band height="20">
+		<band height="50">
 			<image scaleImage="RealHeight" onErrorType="Blank">
 				<reportElement x="0" y="0" width="290" height="50" uuid="923fac2d-3997-42e4-b35a-70d6277adc27"/>
 				<imageExpression><![CDATA[$F{imagePath}]]></imageExpression>
