@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="test" columnCount="2" printOrder="Horizontal" pageWidth="595" pageHeight="842" columnWidth="297" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c85c566c-f509-437b-8408-024543f32492">
+	<queryString language="xPath">
+		<![CDATA[/root/C13/fields/F183/F183_value]]>
+	</queryString>
+	<field name="imagePath" class="java.lang.String">
+		<fieldDescription><![CDATA[child::text()]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="20">
+			<image scaleImage="RealHeight" onErrorType="Blank">
+				<reportElement x="0" y="0" width="290" height="50" uuid="923fac2d-3997-42e4-b35a-70d6277adc27"/>
+				<imageExpression><![CDATA[$F{imagePath}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
