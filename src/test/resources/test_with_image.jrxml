@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="test" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c214682-7e4b-455a-a43c-6ebfc381c771">
+	<import value="static com.microting.report.jasper.ImageUtils.isValidImage"/>
+	<style name="boxedText">
+		<box padding="1">
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="boldLabel" hTextAlign="Left" hImageAlign="Left" vTextAlign="Bottom" vImageAlign="Bottom" isBold="true">
+		<box leftPadding="1"/>
+	</style>
+	<style name="rightBoldLabel" style="boldLabel" hTextAlign="Right" hImageAlign="Right">
+		<box rightPadding="1"/>
+	</style>
+	<style name="label" hTextAlign="Left" hImageAlign="Left" vTextAlign="Bottom" vImageAlign="Bottom">
+		<box leftPadding="1"/>
+	</style>
+	<style name="underlinedText" vTextAlign="Bottom">
+		<box bottomPadding="1">
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+		</box>
+	</style>
+	<queryString language="XPath">
+		<![CDATA[/root/C13]]>
+	</queryString>
+	<field name="date" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F162/F162_value]]></fieldDescription>
+	</field>
+	<field name="auditor" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F163/F163_value]]></fieldDescription>
+	</field>
+	<field name="plads" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F164/F164_value]]></fieldDescription>
+	</field>
+	<field name="miljopolitik_comment" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F185/F185_value]]></fieldDescription>
+	</field>
+	<field name="miljopolitik_status" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F184/F184_value]]></fieldDescription>
+	</field>
+	<field name="miljo_plan_comment" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F188/F188_value]]></fieldDescription>
+	</field>
+	<field name="miljo_plan_status" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F187/F187_value]]></fieldDescription>
+	</field>
+	<field name="validImage" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F200/F200_value]]></fieldDescription>
+	</field>
+	<field name="wrongImage" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F201_value/F201_value]]></fieldDescription>
+	</field>
+	<field name="nullImage" class="java.lang.String">
+		<fieldDescription><![CDATA[fields/F202/F202_value]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="500">
+			<staticText>
+				<reportElement style="boldLabel" x="0" y="20" width="555" height="20" uuid="2dd6136b-93e8-47b1-a2e9-760579cae43b"/>
+				<text><![CDATA[Intern audit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="label" x="0" y="40" width="100" height="20" uuid="23fd65e3-6dc3-4987-bd9f-ca1d66d6baf1"/>
+				<text><![CDATA[Dato:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="underlinedText" x="100" y="40" width="455" height="20" uuid="ce46e43f-38b5-45c6-81a9-9e22f10ef246"/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="label" positionType="Float" x="0" y="60" width="100" height="20" uuid="3b89faf7-a809-4c1d-b4bd-e5c184a2ea83"/>
+				<text><![CDATA[Auditor:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="underlinedText" positionType="Float" x="100" y="60" width="455" height="20" uuid="a4474e5e-ae40-4f9c-af43-48e602750d27"/>
+				<textFieldExpression><![CDATA[$F{auditor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="label" positionType="Float" x="0" y="80" width="100" height="20" uuid="350f08c7-4163-4276-80e4-0e18a0a2673d"/>
+				<text><![CDATA[Plads:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement style="underlinedText" positionType="Float" x="100" y="80" width="455" height="20" uuid="44d0f81e-9d15-4d31-8746-2fa4cc4ba053"/>
+				<textFieldExpression><![CDATA[$F{plads}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="boldLabel" positionType="Float" x="0" y="140" width="100" height="20" uuid="cd04da06-1a4b-407c-82d7-cc008fcdd0aa"/>
+				<text><![CDATA[Generelt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="boldLabel" positionType="Float" x="100" y="140" width="250" height="20" uuid="8c794938-2501-49ec-bc5f-b970be7fec4e"/>
+				<text><![CDATA[Kommentar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="rightBoldLabel" positionType="Float" x="420" y="140" width="135" height="20" uuid="c520c27b-69a6-4577-9e3d-e170b03050ee"/>
+				<text><![CDATA[Status]]></text>
+			</staticText>
+			<frame>
+				<reportElement positionType="Float" x="0" y="160" width="555" height="60" uuid="52678f53-0f72-4bed-bd0c-8f4b873f6a49"/>
+				<staticText>
+					<reportElement style="label" positionType="Float" x="0" y="0" width="100" height="20" uuid="cdced540-b608-40f5-9d90-3c222052b1c8"/>
+					<text><![CDATA[Miljopolitik]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="boxedText" positionType="Float" stretchType="ContainerBottom" x="100" y="0" width="310" height="60" uuid="1c28dd90-8485-485f-aa81-cd12470027ea"/>
+					<textFieldExpression><![CDATA[$F{miljopolitik_comment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="boxedText" positionType="Float" stretchType="ContainerBottom" x="500" y="0" width="55" height="60" uuid="40b69ae5-0533-49bd-a14c-ce19f707213e"/>
+					<textFieldExpression><![CDATA[$F{miljopolitik_status}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement positionType="Float" x="0" y="220" width="555" height="60" uuid="1a68dd62-4f41-4e66-a106-c630abd17a9a"/>
+				<staticText>
+					<reportElement style="label" positionType="Float" x="0" y="0" width="100" height="20" uuid="c287473e-1464-40e2-b43b-2a7a967b99a1"/>
+					<text><![CDATA[Miljo Plan]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="boxedText" positionType="Float" stretchType="ContainerHeight" x="100" y="0" width="310" height="60" uuid="d566eeee-adc4-4e8d-8b0d-58ca5c8d1033"/>
+					<textFieldExpression><![CDATA[$F{miljo_plan_comment}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="boxedText" positionType="Float" stretchType="ContainerHeight" x="500" y="0" width="55" height="60" uuid="2578785a-eebf-439e-952a-227ea1b1f4cb"/>
+					<textFieldExpression><![CDATA[$F{miljo_plan_status}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+		<band height="2" splitType="Prevent">
+			<break>
+				<reportElement x="0" y="1" width="555" height="1" uuid="c973281a-39f3-4fe2-9591-674aeefbd3fd"/>
+			</break>
+		</band>
+		<band height="500">
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="20" uuid="142c0b66-db62-421a-8bb5-280795ab5dfb"/>
+				<text><![CDATA[The image will be hidden if failed to load]]></text>
+			</staticText>
+			<image scaleImage="RealHeight" onErrorType="Blank">
+				<reportElement x="30" y="40" width="100" height="10" uuid="c43fa41a-cdfa-43b7-b67e-a769dc5c9c66"/>
+				<imageExpression><![CDATA[$F{validImage}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="60" width="555" height="20" uuid="8d8e24c7-8e85-42fe-a6aa-8a0268fa85d9"/>
+				<text><![CDATA[Next row after image]]></text>
+			</staticText>
+		</band>
+		<band height="2" splitType="Prevent">
+			<break>
+				<reportElement x="0" y="1" width="555" height="1" uuid="b8d79677-d64f-4979-8ea0-200e8f98bcfd"/>
+			</break>
+		</band>
+		<band height="500">
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="20" uuid="35e531f8-92a9-4b00-b633-8b3e9806d84e"/>
+				<text><![CDATA[The image contains wrong url and will be hidden]]></text>
+			</staticText>
+			<image scaleImage="RealHeight" onErrorType="Blank">
+				<reportElement x="30" y="40" width="100" height="10" uuid="4ed36407-ac24-4a4c-b479-96ef6c9c7e34"/>
+				<imageExpression><![CDATA[$F{wrongImage}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="50" width="555" height="20" uuid="55eb9779-24f0-41a1-b16b-277f1782507c"/>
+				<text><![CDATA[Next row after image]]></text>
+			</staticText>
+		</band>
+		<band height="2" splitType="Prevent">
+			<printWhenExpression><![CDATA[$F{nullImage} != null && !$F{nullImage}.trim().isEmpty()]]></printWhenExpression>
+			<break>
+				<reportElement x="0" y="1" width="555" height="1" uuid="4d300d09-d478-4735-9135-f97878d15a86"/>
+			</break>
+		</band>
+		<band height="500">
+			<printWhenExpression><![CDATA[$F{nullImage} != null && !$F{nullImage}.trim().isEmpty()]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="20" uuid="78cb7b98-a519-44b5-a625-54e3e14889f9"/>
+				<text><![CDATA[The page with null image. The whole page will be hidden]]></text>
+			</staticText>
+			<image scaleImage="RealHeight" onErrorType="Blank">
+				<reportElement x="30" y="40" width="100" height="10" uuid="61950c1e-3fc0-4a4c-9167-eaf984a337aa"/>
+				<imageExpression><![CDATA[$F{nullImage}]]></imageExpression>
+			</image>
+		</band>
+		<band height="2" splitType="Prevent">
+			<printWhenExpression><![CDATA[isValidImage($F{wrongImage})]]></printWhenExpression>
+			<break>
+				<reportElement x="0" y="1" width="555" height="1" uuid="ed000c8e-f064-46ff-bf95-a17edc8f33a1"/>
+			</break>
+		</band>
+		<band height="500">
+			<printWhenExpression><![CDATA[isValidImage($F{wrongImage})]]></printWhenExpression>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="20" uuid="9f007033-c006-411d-9d3d-e812a4354190"/>
+				<text><![CDATA[The page with broken url. The whole page will be hidden]]></text>
+			</staticText>
+			<image scaleImage="RealHeight" onErrorType="Blank">
+				<reportElement x="30" y="40" width="100" height="10" uuid="927bd000-9e9b-4b46-9733-a6ed80e78ac5"/>
+				<imageExpression><![CDATA[$F{wrongImage}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
