@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 7.1.0.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="test" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0c214682-7e4b-455a-a43c-6ebfc381c771">
-	<import value="static com.microting.report.jasper.ImageUtils.isValidImage"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="data-tester"/>
 	<style name="boxedText">
 		<box padding="1">
 			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -126,16 +126,16 @@
 				<reportElement x="0" y="1" width="555" height="1" uuid="c973281a-39f3-4fe2-9591-674aeefbd3fd"/>
 			</break>
 		</band>
-		<band height="320">
+		<band height="802">
 			<subreport>
-				<reportElement x="0" y="20" width="555" height="40" uuid="e6ee4426-36a5-4cab-ac6e-149c77f5d4ab">
+				<reportElement x="0" y="20" width="555" height="200" uuid="e6ee4426-36a5-4cab-ac6e-149c77f5d4ab">
 					<printWhenExpression><![CDATA[$F{numOfImages} > 1]]></printWhenExpression>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("fields/F183/F183_value")]]></dataSourceExpression>
 				<subreportExpression><![CDATA["subreport_images_2columns.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="20" width="555" height="40" uuid="e6ee4426-36a5-4cab-ac6e-149c77f5d4ab">
+				<reportElement x="0" y="20" width="555" height="200" uuid="e6ee4426-36a5-4cab-ac6e-149c77f5d4ab">
 					<printWhenExpression><![CDATA[$F{numOfImages} <= 1]]></printWhenExpression>
 				</reportElement>
 				<dataSourceExpression><![CDATA[((net.sf.jasperreports.engine.data.JRXmlDataSource)$P{REPORT_DATA_SOURCE}).subDataSource("fields/F183/F183_value")]]></dataSourceExpression>

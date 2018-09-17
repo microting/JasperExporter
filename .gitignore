@@ -22,3 +22,15 @@
 hs_err_pid*
 
 !gradle-wrapper.jar
+.DS_Store
+*.doc
+*.docx
+*.odt
+*.pdf
+*.ppt
+*.pptx
+*.rtf
+*.xls
+*.xlsx
+.gradle
+build
