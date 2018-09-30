@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
 
     dependencies {
@@ -9,6 +10,7 @@ buildscript {
 }
 
 plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
     id 'java'
 }
 
@@ -17,6 +19,7 @@ repositories {
 
     maven { url "http://jasperreports.sourceforge.net/maven2" }
     maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts" }
+    flatDir { dirs 'libs' }
 }
 
 apply plugin: "build-time-tracker"
@@ -27,7 +30,8 @@ dependencies {
             'xalan:xalan:2.7.2',
             'org.apache.poi:poi:3.15',
             'org.apache.logging.log4j:log4j-1.2-api:2.11.0',
-            'org.apache.logging.log4j:log4j-core:2.11.0'
+            'org.apache.logging.log4j:log4j-core:2.11.0',
+            fileTree(dir: 'libs', include: ['*.jar'])
 
     compileOnly 'org.projectlombok:lombok:1.16.22'
 
@@ -36,19 +40,18 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.16.22'
 }
 
-jar {
+tasks.build.dependsOn tasks.shadowJar
+
+shadowJar {
+    baseName = 'JasperExporter'
     manifest {
         attributes(
                 "Main-Class": "com.microting.report.jasper.JasperExporter")
     }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-            {
-                exclude "META-INF/*.SF"
-                exclude "META-INF/*.DSA"
-                exclude "META-INF/*.RSA"
-            }
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+    append 'jasperreports_extension.properties'
 }
 
 import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.*
