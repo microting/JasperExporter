@@ -14,6 +14,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -31,6 +32,15 @@ import java.util.HashMap;
 
 @RunWith(Parameterized.class)
 public class ReportWithOverflowTextAndBrokenImagesTest {
+
+	@Before
+	public void setUp() {
+		createOutputFolder();
+	}
+
+	private void createOutputFolder() {
+		new File("./out").mkdirs();
+	}
 
 	@Parameter
 	public String date;
@@ -101,7 +111,7 @@ public class ReportWithOverflowTextAndBrokenImagesTest {
 			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 			SimpleOutputStreamExporterOutput exporterOutput = null;
 			try {
-				File file = new File("./out/test_" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".pdf");
+				File file = new File("./out/test_with_image__" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".pdf");
 
 				exporterOutput = new SimpleOutputStreamExporterOutput(file);
 				exporter.setExporterOutput(exporterOutput);

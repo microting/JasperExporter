@@ -20,15 +20,16 @@ import java.util.Collection;
 import java.util.Date;
 
 import static org.apache.commons.io.FilenameUtils.getExtension;
+import static org.apache.commons.io.FilenameUtils.removeExtension;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
-public class DifferentOutputFormatsTest {
+public class FontExtensionsTest {
 
-	private static final String REPORT1_TEMPLATE_WITH_SUBREPORT_EXTERNAL_IMAGES = "report_without_https_images.jrxml";
+	private static final String REPORT_TEMPLATE_CHECK_FONT_AT_PDF = "check_font_pdf.jrxml";
 	private static final String REPORT1_DATASOURCE = "201805281421570431_5491.xml";
 
-	private static final Report[] REPORTS = {Report.builder().template(REPORT1_TEMPLATE_WITH_SUBREPORT_EXTERNAL_IMAGES)
+	private static final Report[] REPORTS = {Report.builder().template(REPORT_TEMPLATE_CHECK_FONT_AT_PDF)
 			.inputDataUri(REPORT1_DATASOURCE).build()};
 
 	@Before
@@ -44,28 +45,31 @@ public class DifferentOutputFormatsTest {
 		} catch (URISyntaxException | IOException e) {
 			throw new RuntimeException(e);
 		}
+		createOutputFolder();
+	}
+
+	private void createOutputFolder() {
+		new File("./out").mkdirs();
 	}
 
 	@Parameters
 	public static Collection<Object[]> data() {
 		Collection<Object[]> data = new ArrayList<>();
 		for (Report report : REPORTS) {
-			for (ExportType exportType : ExportType.values()) {
-				try {
-					data.add(new Object[]{Paths.get(ClassLoader.getSystemResource(report.getTemplate()).toURI()).toString(),
-							ClassLoader.getSystemResource(report.getInputDataUri()).getPath(),
-							exportType.name().toLowerCase(),
-							generateOutputFileName(exportType.name().toLowerCase())});
-				} catch (URISyntaxException e) {
-					throw new RuntimeException(e);
-				}
+			try {
+				data.add(new Object[]{Paths.get(ClassLoader.getSystemResource(report.getTemplate()).toURI()).toString(),
+						ClassLoader.getSystemResource(report.getInputDataUri()).getPath(),
+						ExportType.PDF.name().toLowerCase(),
+						generateOutputFileName(removeExtension(report.getTemplate()), ExportType.PDF.name().toLowerCase())});
+			} catch (URISyntaxException e) {
+				throw new RuntimeException(e);
 			}
 		}
 		return data;
 	}
 
-	private static String generateOutputFileName(String type) {
-		return String.format("./out/%s.%s", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()), type);
+	private static String generateOutputFileName(String template, String type) {
+		return String.format("./out/%s__%s.%s", template, new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()), type);
 	}
 
 	@Parameter

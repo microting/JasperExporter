@@ -1,3 +1,7 @@
+apply plugin: 'base'
+apply plugin: 'idea'
+apply plugin: 'build-time-tracker'
+
 buildscript {
     repositories {
         mavenCentral()
@@ -6,82 +10,7 @@ buildscript {
 
     dependencies {
         classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.11.+"
-    }
-}
-
-plugins {
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
-    id 'java'
-}
-
-repositories {
-    jcenter()
-
-    maven { url "http://jasperreports.sourceforge.net/maven2" }
-    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts" }
-    flatDir { dirs 'libs' }
-}
-
-apply plugin: "build-time-tracker"
-
-dependencies {
-    compile 'net.sf.jasperreports:jasperreports:6.6.0',
-            'commons-io:commons-io:2.6',
-            'xalan:xalan:2.7.2',
-            'org.apache.poi:poi:3.15',
-            'org.apache.logging.log4j:log4j-1.2-api:2.11.0',
-            'org.apache.logging.log4j:log4j-core:2.11.0',
-            fileTree(dir: 'libs', include: ['*.jar'])
-
-    compileOnly 'org.projectlombok:lombok:1.16.22'
-
-    testCompile 'junit:junit:4.12'
-
-    testCompileOnly 'org.projectlombok:lombok:1.16.22'
-}
-
-tasks.build.dependsOn tasks.shadowJar
-
-shadowJar {
-    classifier = null
-    manifest {
-        attributes(
-                "Main-Class": "com.microting.report.jasper.JasperExporter")
-    }
-    exclude "META-INF/*.SF"
-    exclude "META-INF/*.DSA"
-    exclude "META-INF/*.RSA"
-    append 'jasperreports_extension.properties'
-}
-
-import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.*
-import static org.gradle.api.tasks.testing.logging.TestLogEvent.*
-
-test {
-    testLogging {
-        events FAILED,
-                PASSED,
-                SKIPPED
-        exceptionFormat FULL
-        showExceptions true
-        showCauses true
-        showStackTraces true
-
-        debug {
-            events STARTED,
-                    FAILED,
-                    PASSED,
-                    SKIPPED,
-                    STANDARD_ERROR,
-                    STANDARD_OUT
-            exceptionFormat FULL
-            showExceptions true
-            showCauses true
-            showStackTraces true
-        }
-
-        info.events = debug.events
-        info.exceptionFormat = debug.exceptionFormat
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE'
     }
 }
 
@@ -93,4 +22,31 @@ buildtimetracker {
             barstyle "unicode"
         }
     }
+}
+
+subprojects {
+    group "com.microting"
+    version "1.0"
+
+    apply plugin: "java"
+    apply plugin: "io.spring.dependency-management"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    dependencyManagement {
+        dependencies {
+            dependency 'net.sf.jasperreports:jasperreports:6.6.0'
+            dependency 'commons-io:commons-io:2.6'
+            dependency 'xalan:xalan:2.7.2'
+            dependency 'org.apache.poi:poi:3.15'
+            dependency 'org.apache.logging.log4j:log4j-1.2-api:2.11.0'
+            dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
+            dependency 'org.projectlombok:lombok:1.16.22'
+            dependency 'junit:junit:4.12'
+        }
+    }
+
+    println "moduleName: ${it.name}"
 }
