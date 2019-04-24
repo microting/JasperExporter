@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import static org.apache.commons.io.FilenameUtils.getExtension;
+import static org.apache.commons.io.FilenameUtils.removeExtension;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
@@ -44,6 +45,11 @@ public class DifferentOutputFormatsTest {
 		} catch (URISyntaxException | IOException e) {
 			throw new RuntimeException(e);
 		}
+		createOutputFolder();
+	}
+
+	private void createOutputFolder() {
+		new File("./out").mkdirs();
 	}
 
 	@Parameters
@@ -55,7 +61,7 @@ public class DifferentOutputFormatsTest {
 					data.add(new Object[]{Paths.get(ClassLoader.getSystemResource(report.getTemplate()).toURI()).toString(),
 							ClassLoader.getSystemResource(report.getInputDataUri()).getPath(),
 							exportType.name().toLowerCase(),
-							generateOutputFileName(exportType.name().toLowerCase())});
+							generateOutputFileName(removeExtension(report.getTemplate()), exportType.name().toLowerCase())});
 				} catch (URISyntaxException e) {
 					throw new RuntimeException(e);
 				}
@@ -64,8 +70,8 @@ public class DifferentOutputFormatsTest {
 		return data;
 	}
 
-	private static String generateOutputFileName(String type) {
-		return String.format("./out/%s.%s", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()), type);
+	private static String generateOutputFileName(String template, String type) {
+		return String.format("./out/%s__%s.%s", template, new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()), type);
 	}
 
 	@Parameter

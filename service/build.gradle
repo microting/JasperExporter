@@ -1,0 +1,73 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
+repositories {
+    jcenter()
+
+    maven { url "http://jasperreports.sourceforge.net/maven2" }
+    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts" }
+}
+
+dependencies {
+    compile project(":fonts"),
+            'net.sf.jasperreports:jasperreports',
+            'commons-io:commons-io',
+            'xalan:xalan',
+            'org.apache.poi:poi',
+            'org.apache.logging.log4j:log4j-1.2-api',
+            'org.apache.logging.log4j:log4j-core'
+
+    compileOnly 'org.projectlombok:lombok'
+
+    testCompile 'junit:junit'
+
+    testCompileOnly 'org.projectlombok:lombok'
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
+shadowJar {
+    baseName = 'JasperExporter'
+    classifier = null
+    version = null
+    manifest {
+        attributes(
+                "Main-Class": "com.microting.report.jasper.JasperExporter")
+    }
+    exclude "META-INF/*.SF"
+    exclude "META-INF/*.DSA"
+    exclude "META-INF/*.RSA"
+    append 'jasperreports_extension.properties'
+}
+
+import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.*
+import static org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
+test {
+    testLogging {
+        events FAILED,
+                PASSED,
+                SKIPPED
+        exceptionFormat FULL
+        showExceptions true
+        showCauses true
+        showStackTraces true
+
+        debug {
+            events STARTED,
+                    FAILED,
+                    PASSED,
+                    SKIPPED,
+                    STANDARD_ERROR,
+                    STANDARD_OUT
+            exceptionFormat FULL
+            showExceptions true
+            showCauses true
+            showStackTraces true
+        }
+
+        info.events = debug.events
+        info.exceptionFormat = debug.exceptionFormat
+    }
+}
