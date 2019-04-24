@@ -34,3 +34,5 @@ hs_err_pid*
 *.xlsx
 .gradle
 build
+!gradle-wrapper.jar
+!fonts.jar
