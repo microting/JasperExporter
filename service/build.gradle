@@ -1,28 +1,37 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'io.freefair.lombok' version '6.3.0'
+    id 'com.adarshr.test-logger' version '3.1.0'
 }
 
 repositories {
     jcenter()
 
-    maven { url "http://jasperreports.sourceforge.net/maven2" }
-    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts" }
+    maven {
+        url "http://jasperreports.sourceforge.net/maven2"
+        allowInsecureProtocol = true
+    }
+    maven {
+        url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts"
+        allowInsecureProtocol = true
+    }
+    maven {
+        url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts"
+    }
 }
 
 dependencies {
-    compile project(":fonts"),
+    implementation project(":fonts"),
             'net.sf.jasperreports:jasperreports',
             'commons-io:commons-io',
             'xalan:xalan',
             'org.apache.poi:poi',
             'org.apache.logging.log4j:log4j-1.2-api',
-            'org.apache.logging.log4j:log4j-core'
+            'org.apache.logging.log4j:log4j-core',
+            'org.apache.commons:commons-lang3'
 
-    compileOnly 'org.projectlombok:lombok'
-
-    testCompile 'junit:junit'
-
-    testCompileOnly 'org.projectlombok:lombok'
+    testImplementation 'junit:junit',
+            'org.apache.poi:poi:5.1.0'
 }
 
 tasks.build.dependsOn tasks.shadowJar
