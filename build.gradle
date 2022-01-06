@@ -44,7 +44,7 @@ subprojects {
             dependency 'org.apache.logging.log4j:log4j-1.2-api:2.11.0'
             dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
             dependency 'org.projectlombok:lombok:1.16.22'
-            dependency 'junit:junit:4.12'
+            dependency 'junit:junit:4.13.2'
         }
     }
 
