@@ -5,12 +5,11 @@ apply plugin: 'build-time-tracker'
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
         classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.11.+"
-        classpath 'io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE'
     }
 }
 
@@ -26,27 +25,38 @@ buildtimetracker {
 
 subprojects {
     group "com.microting"
-    version "1.0"
+    version "1.1"
 
-    apply plugin: "java"
+    apply plugin: "java-library"
     apply plugin: "io.spring.dependency-management"
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(11)
+            vendor = JvmVendorSpec.ADOPTOPENJDK
+        }
+    }
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
     dependencyManagement {
+        imports {
+            mavenBom "org.junit:junit-bom:5.8.2"
+        }
+
         dependencies {
-            dependency 'net.sf.jasperreports:jasperreports:6.6.0'
-            dependency 'commons-io:commons-io:2.6'
+            dependency 'net.sf.jasperreports:jasperreports:6.18.1'
+            dependency 'commons-io:commons-io:2.11.0'
             dependency 'xalan:xalan:2.7.2'
-            dependency 'org.apache.poi:poi:3.15'
-            dependency 'org.apache.logging.log4j:log4j-1.2-api:2.11.0'
-            dependency 'org.apache.logging.log4j:log4j-core:2.11.0'
-            dependency 'org.projectlombok:lombok:1.16.22'
-            dependency 'junit:junit:4.12'
+            dependency 'org.apache.poi:poi:4.1.1'
+            dependency 'org.apache.logging.log4j:log4j-1.2-api:2.17.1'
+            dependency 'org.apache.logging.log4j:log4j-core:2.17.1'
+            dependency 'org.apache.commons:commons-lang3:3.12.0'
         }
     }
 
     println "moduleName: ${it.name}"
+}
+
+wrapper {
+    distributionUrl = 'https://services.gradle.org/distributions/gradle-7.3.3-bin.zip'
 }

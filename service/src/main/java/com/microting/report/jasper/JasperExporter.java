@@ -6,7 +6,7 @@ import com.microting.report.jasper.exceptions.UnsupportedArgumentException;
 import com.microting.report.jasper.exceptions.WrongArgumentException;
 import com.microting.report.jasper.exceptions.WrongArgumentsNumberException;
 import com.microting.report.jasper.utils.LoggerUtils;
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;

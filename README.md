@@ -1,10 +1,10 @@
 # JasperExporter
 
-[![Build Status](https://travis-ci.org/microting/JasperExporter.svg?branch=master)](https://travis-ci.org/microting/JasperExporter)
+[![Java CI with Gradle](https://github.com/akarabelnikov/JasperExporter/actions/workflows/gradle.yml/badge.svg)](https://github.com/akarabelnikov/JasperExporter/actions/workflows/gradle.yml)
 
 #### Prerequisites
 
-1. Java8 (JRE) should be installed for running tool.
+1. Java 11 (JRE) should be installed for running tool.
 2. All required certificates for accessing resources (images) via HTTPS should be installed for Java. The installation procedure described below.
 
 #### Building tool from source code
@@ -26,7 +26,7 @@ As the result the [fat][1] jar will be generated at ***./build/libs*** folder.
 
 The example of command for running utility on Windows:
 ```bash
-C:\tmp>c:\jdk1.8.0_65_x64\bin\java -jar c:\JasperExporter\build\libs\JasperExporter.jar -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
+C:\tmp>c:\jdk-11.0.8.10-hotspot\bin\java -jar c:\JasperExporter\build\libs\JasperExporter.jar -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
 ```
 
 At the folder where the utility was started (at current directory) the log files will be generated according logging settings (see below)
@@ -90,19 +90,19 @@ The configuration can be set via file ***src\main\resources\log4j2.xml***
 
 The example of command for running utility with disabled logging. *Windows* version:
 ```bash
-C:\tmp>c:\jdk1.8.0_65_x64\bin\java -jar c:\JasperExporter\build\libs\JasperExporter.jar -loggingEnabled=false -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
+C:\tmp>c:\jdk-11.0.8.10-hotspot\bin\java -jar c:\JasperExporter\build\libs\JasperExporter.jar -loggingEnabled=false -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
 ```
 or just: 
 
 ```bash
-C:\tmp>c:\jdk1.8.0_65_x64\bin\java -jar c:\JasperExporter\build\libs\JasperExporter.jar -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
+C:\tmp>c:\jdk-11.0.8.10-hotspot\bin\java -jar c:\JasperExporter\build\libs\JasperExporter.jar -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
 ```
 
 * The logging can be disabled with help of custom configuration file (log4j2.xml). To apply this custom config the ***log4j2.configurationFile*** property should be used.
 
 The example of command for running utility with custom logging configuration file. *Windows* version:
 ```bash
-C:\tmp>c:\jdk1.8.0_65_x64\bin\java -Dlog4j2.configurationFile=c:\tmp\log4j2.xml -jar c:\JasperExporter\build\libs\JasperExporter.jar -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
+C:\tmp>c:\jdk-11.0.8.10-hotspot\bin\java -Dlog4j2.configurationFile=c:\tmp\log4j2.xml -jar c:\JasperExporter\build\libs\JasperExporter.jar -template="c:\test\1316.jrxml" -type="pdf" -uri="c:/test/201805281421570431_5491.xml" -outputFile="c:\JasperExporter\results\5491.pdf"
 ```
 
 The content of *log4j2.xml* with disabled loggers (appenders) looks like this:

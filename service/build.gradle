@@ -1,28 +1,35 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'io.freefair.lombok' version '6.3.0'
+    id 'com.adarshr.test-logger' version '3.1.0'
 }
 
 repositories {
-    jcenter()
-
-    maven { url "http://jasperreports.sourceforge.net/maven2" }
-    maven { url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts" }
+    mavenCentral()
+    maven {
+        url "http://jasperreports.sourceforge.net/maven2"
+        allowInsecureProtocol = true
+    }
+    maven {
+        url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts"
+        allowInsecureProtocol = true
+    }
+    maven {
+        url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts"
+    }
 }
 
 dependencies {
-    compile project(":fonts"),
+    implementation project(":fonts"),
             'net.sf.jasperreports:jasperreports',
             'commons-io:commons-io',
             'xalan:xalan',
             'org.apache.poi:poi',
             'org.apache.logging.log4j:log4j-1.2-api',
-            'org.apache.logging.log4j:log4j-core'
+            'org.apache.logging.log4j:log4j-core',
+            'org.apache.commons:commons-lang3'
 
-    compileOnly 'org.projectlombok:lombok'
-
-    testCompile 'junit:junit'
-
-    testCompileOnly 'org.projectlombok:lombok'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 tasks.build.dependsOn tasks.shadowJar
@@ -38,6 +45,7 @@ shadowJar {
     exclude "META-INF/*.SF"
     exclude "META-INF/*.DSA"
     exclude "META-INF/*.RSA"
+    exclude "**/Log4j2Plugins.dat"
     append 'jasperreports_extension.properties'
 }
 
@@ -45,6 +53,8 @@ import static org.gradle.api.tasks.testing.logging.TestExceptionFormat.*
 import static org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 test {
+    useJUnitPlatform()
+
     testLogging {
         events FAILED,
                 PASSED,
