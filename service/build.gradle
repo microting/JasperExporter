@@ -7,14 +7,6 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url "http://jasperreports.sourceforge.net/maven2"
-        allowInsecureProtocol = true
-    }
-    maven {
-        url "http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts"
-        allowInsecureProtocol = true
-    }
-    maven {
         url "https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts"
     }
 }
