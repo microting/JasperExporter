@@ -49,7 +49,7 @@ subprojects {
             dependency 'xalan:xalan:2.7.2'
             dependency 'org.apache.poi:poi:4.1.1'
             dependency 'org.apache.logging.log4j:log4j-1.2-api:2.17.1'
-            dependency 'org.apache.logging.log4j:log4j-core:2.17.1'
+            dependency 'org.apache.logging.log4j:log4j-core:2.17.2'
             dependency 'org.apache.commons:commons-lang3:3.12.0'
         }
     }
