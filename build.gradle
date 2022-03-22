@@ -44,7 +44,7 @@ subprojects {
         }
 
         dependencies {
-            dependency 'net.sf.jasperreports:jasperreports:6.18.1'
+            dependency 'net.sf.jasperreports:jasperreports:6.19.0'
             dependency 'commons-io:commons-io:2.11.0'
             dependency 'xalan:xalan:2.7.2'
             dependency 'org.apache.poi:poi:4.1.1'
