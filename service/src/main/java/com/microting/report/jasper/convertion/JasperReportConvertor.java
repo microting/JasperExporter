@@ -64,7 +64,7 @@ public class JasperReportConvertor {
 					new SimpleEntry<>(ExportType.ODT, new ReportExporter<>(JROdtExporter.class, SimpleOdtReportConfiguration::new, SimpleOutputStreamExporterOutput.class)),
 					new SimpleEntry<>(ExportType.RTF, new ReportExporter<>(JRRtfExporter.class, SimpleRtfReportConfiguration::new, SimpleWriterExporterOutput.class)),
 					new SimpleEntry<>(ExportType.XLSX, new ReportExporter<>(JRXlsxExporter.class, JasperReportConvertor::createXlsxReportConfig, SimpleOutputStreamExporterOutput.class)),
-					new SimpleEntry<>(ExportType.XLS, new ReportExporter<>(JRXlsExporter.class, JasperReportConvertor::createXlsReportConfig, SimpleOutputStreamExporterOutput.class)),
+					//new SimpleEntry<>(ExportType.XLS, new ReportExporter<>(JRXlsExporter.class, JasperReportConvertor::createXlsReportConfig, SimpleOutputStreamExporterOutput.class)),
 					new SimpleEntry<>(ExportType.PPT, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new, SimpleOutputStreamExporterOutput.class)),
 					new SimpleEntry<>(ExportType.PPTX, new ReportExporter<>(JRPptxExporter.class, SimplePptxReportConfiguration::new, SimpleOutputStreamExporterOutput.class)))
 					.collect(Collectors.toMap(SimpleEntry::getKey, SimpleEntry::getValue, (l, r) -> {
