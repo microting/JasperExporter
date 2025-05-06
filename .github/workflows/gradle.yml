@@ -25,11 +25,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-    - name: Build with Gradle
-      uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-version: '8.12'
-        cache-disabled: true
     - name: Clean
       run: ./gradlew clean
     - name: build
