@@ -37,3 +37,4 @@ build
 !gradle-wrapper.jar
 !fonts.jar
 .idea
+gradle/

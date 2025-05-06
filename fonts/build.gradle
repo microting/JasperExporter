@@ -1,4 +1,2 @@
 jar {
-    classifier = null
-    version = null
 }
