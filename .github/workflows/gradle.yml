@@ -27,6 +27,8 @@ jobs:
         distribution: 'adopt'
     - name: Build with Gradle
       uses: gradle/actions/setup-gradle@v4
+      with:
+        cache-disabled: true
     - name: Clean
       run: ./gradlew clean
     - name: build
