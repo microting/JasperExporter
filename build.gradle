@@ -32,6 +32,12 @@ subprojects {
 
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
     dependencyManagement {
         imports {
             mavenBom "org.junit:junit-bom:5.10.2"
