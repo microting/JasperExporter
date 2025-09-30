@@ -44,7 +44,7 @@ subprojects {
             dependency 'org.apache.poi:poi:5.4.1'
             dependency 'org.apache.logging.log4j:log4j-1.2-api:2.24.3'
             dependency 'org.apache.logging.log4j:log4j-core:2.24.3'
-            dependency 'org.apache.commons:commons-lang3:3.14.0'
+            dependency 'org.apache.commons:commons-lang3:3.19.0'
         }
     }
 
