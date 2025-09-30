@@ -14,6 +14,8 @@ repositories {
 dependencies {
     implementation project(":fonts"),
             'net.sf.jasperreports:jasperreports',
+            'net.sf.jasperreports:jasperreports-pdf',
+            'net.sf.jasperreports:jasperreports-excel-poi',
             'commons-io:commons-io',
             'xalan:xalan',
             'org.apache.poi:poi',
