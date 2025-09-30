@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 import com.microting.report.jasper.ExportType;
 import com.microting.report.jasper.exceptions.ReportConversionException;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.pdf.JRPdfExporter;
+import net.sf.jasperreports.poi.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -34,7 +34,7 @@ import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOdtReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfReportConfiguration;
+import net.sf.jasperreports.pdf.SimplePdfReportConfiguration;
 import net.sf.jasperreports.export.SimplePptxReportConfiguration;
 import net.sf.jasperreports.export.SimpleRtfReportConfiguration;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
@@ -110,8 +110,8 @@ public class JasperReportConvertor {
 
 	private static Exporter createExporter(ReportExporter<? extends Exporter, ? extends ReportExportConfiguration> v) {
 		try {
-			return v.exporterClass.newInstance();
-		} catch (IllegalAccessException | InstantiationException e) {
+			return v.exporterClass.getDeclaredConstructor().newInstance();
+		} catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
 	}
