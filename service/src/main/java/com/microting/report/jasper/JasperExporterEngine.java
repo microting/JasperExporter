@@ -106,7 +106,7 @@ class JasperExporterEngine {
 
 		JasperDesign design;
 		try {
-			design = JRXmlLoader.load(templateFile);
+			design = JRXmlLoader.load(DefaultJasperReportsContext.getInstance(), templateFile);
 		} catch (JRException e) {
 			log.error("Failed to load template: {}", templateFile, e);
 			throw e;
